@@ -25,7 +25,7 @@ SECRET_KEY = 'y4jhj@2wz_&zaiz^e0&wv@-_lix1!p$(8yoifolyuf1%k6!u*-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://m-s-staging.herokuapp.com/', 'https://m-s-prod.herokuapp.com/', 'localhost']
 
 
 # Application definition
@@ -77,8 +77,15 @@ WSGI_APPLICATION = 'api-m_s.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'msdb',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'TEST': {
+            'ENGINE': 'django.db.backends.sqlite3',
+        }
     }
 }
 

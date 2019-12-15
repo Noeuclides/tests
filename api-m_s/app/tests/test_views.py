@@ -4,6 +4,9 @@ from rest_framework.test import APITestCase
 
 from app.models import User, Task
 
+from pdb import set_trace
+
+import requests
 
 class TestNoteApi(APITestCase):
     def setUp(self):
@@ -32,6 +35,7 @@ class TestNoteApi(APITestCase):
             'task': [],
         }, format="json")
 
+        print(response)
         # check info returned has the update
         self.assertEqual('Franz', response.data['name'])
 
@@ -49,12 +53,11 @@ class TestViewApi(APITestCase):
         self.task.save()
 
     def test_task_creation(self):
-        response = self.client.post(reverse('task'), {
+        response = requests.post(reverse('task'), {
             'description': 'Make views',
-            'state': 'True',
             'user_id': 1
         })
-
+        print("PRINT", response.status_code)
         # assert new task was added
         self.assertEqual(Task.objects.count(), 2)
 
@@ -75,5 +78,4 @@ class TestViewApi(APITestCase):
 
     def test_deleting_user(self):
         response = self.client.delete(reverse('task_detail', kwargs={"pk": 1}))
-
         self.assertEqual(204, response.status_code)
