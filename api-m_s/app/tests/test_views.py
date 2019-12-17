@@ -53,10 +53,12 @@ class TestViewApi(APITestCase):
         self.task.save()
 
     def test_task_creation(self):
+        print(reverse('task'))
         response = requests.post(reverse('task'), {
             'description': 'Make views',
             'user_id': 1
         })
+        
         print("PRINT", response.status_code)
         # assert new task was added
         self.assertEqual(Task.objects.count(), 2)

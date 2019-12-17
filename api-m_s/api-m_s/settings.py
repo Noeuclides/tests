@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import sys
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,7 +26,8 @@ SECRET_KEY = 'y4jhj@2wz_&zaiz^e0&wv@-_lix1!p$(8yoifolyuf1%k6!u*-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://m-s-staging.herokuapp.com/', 'https://m-s-prod.herokuapp.com/', 'localhost']
+ALLOWED_HOSTS = ['https://m-s-staging.herokuapp.com/',
+                 'https://m-s-prod.herokuapp.com/', 'localhost']
 
 
 # Application definition
@@ -75,19 +77,26 @@ WSGI_APPLICATION = 'api-m_s.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'msdb',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        'TEST': {
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
             'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'msdb',
+            'USER': 'root',
+            'PASSWORD': 'root',
+            'HOST': 'localhost',
+            'PORT': '5432',
+        }
+    }
+
+print(DATABASES['default'])
 
 
 # Password validation
